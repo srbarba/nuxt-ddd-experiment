@@ -3,32 +3,52 @@
     <div>
       <Logo />
       <h1 class="title">bookshelf</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+
+      <form @submit.prevent="setVeryImportantValue({ veryImportantValue })">
+        <label for="value">Very important value</label>
+        <div>
+          <input
+            id="value"
+            v-model="veryImportantValue"
+            name="value"
+            type="text"
+          />
+          <button type="submit">Update state</button>
+        </div>
+      </form>
+      <br />
+
+      <div>
+        <button @click="startLoading">Start Loading</button>
+        <button @click="stopLoading">Stop Loading</button>
       </div>
+      <br />
+      <div>Loading: {{ isLoading }}</div>
+      <div>State: {{ reallyVeryImportantValue }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState, mapActions } from 'vuex'
 
-export default Vue.extend({})
+export default Vue.extend({
+  data() {
+    return {
+      veryImportantValue: undefined,
+    }
+  },
+  computed: {
+    ...mapState({
+      isLoading: 'loading',
+      reallyVeryImportantValue: 'veryImportantValue',
+    }),
+  },
+  methods: {
+    ...mapActions(['startLoading', 'stopLoading', 'setVeryImportantValue']),
+  },
+})
 </script>
 
 <style>
